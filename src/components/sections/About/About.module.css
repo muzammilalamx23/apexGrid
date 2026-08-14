@@ -1,0 +1,105 @@
+.section {
+  padding: var(--section-py) 0;
+  background: var(--bg-secondary);
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--section-px);
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.left {
+  position: sticky;
+  top: calc(70px + var(--space-16));
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+}
+
+.left.visible { opacity: 1; transform: translateY(0); }
+
+.title {
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+  margin-top: var(--space-6);
+}
+
+.italic {
+  font-style: italic;
+  font-weight: var(--weight-light);
+  color: var(--text-secondary);
+}
+
+/* Right */
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s var(--ease-out-expo) 0.15s, transform 0.9s var(--ease-out-expo) 0.15s;
+}
+
+.right.rightVisible { opacity: 1; transform: translateY(0); }
+
+.body {
+  font-size: var(--text-lg);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+.attributes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-8) 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.attr {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.attrDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  flex-shrink: 0;
+}
+
+.attrText {
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  color: var(--text-primary);
+  letter-spacing: var(--tracking-wide);
+}
+
+.tagline {
+  padding-top: var(--space-2);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 1023px) {
+  .container { grid-template-columns: 1fr; }
+  .left { position: static; }
+}

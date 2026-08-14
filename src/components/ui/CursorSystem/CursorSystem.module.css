@@ -1,0 +1,103 @@
+.dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--cyan);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  opacity: 0;
+  margin-left: -3px;
+  margin-top: -3px;
+  transition: opacity 0.3s, width 0.2s var(--ease-out-expo), height 0.2s var(--ease-out-expo), background 0.2s;
+  will-change: transform;
+}
+
+.dot.visible { opacity: 1; }
+
+.dot--link, .dot--view, .dot--cta {
+  width: 4px;
+  height: 4px;
+  opacity: 0.5;
+}
+
+.ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(0, 212, 232, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  opacity: 0;
+  margin-left: -18px;
+  margin-top: -18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    opacity 0.3s,
+    width 0.4s var(--ease-out-expo),
+    height 0.4s var(--ease-out-expo),
+    background 0.3s,
+    border-color 0.3s,
+    margin 0.4s var(--ease-out-expo);
+  will-change: transform;
+}
+
+.ring.visible { opacity: 1; }
+
+/* Link state */
+.ring--link {
+  width: 48px;
+  height: 48px;
+  margin-left: -24px;
+  margin-top: -24px;
+  border-color: var(--cyan);
+  background: var(--cyan-glow);
+}
+
+/* View state — large circle with label */
+.ring--view {
+  width: 90px;
+  height: 90px;
+  margin-left: -45px;
+  margin-top: -45px;
+  border-color: var(--cyan);
+  background: rgba(0, 212, 232, 0.08);
+}
+
+/* CTA state */
+.ring--cta {
+  width: 56px;
+  height: 56px;
+  margin-left: -28px;
+  margin-top: -28px;
+  background: var(--cyan-dim);
+  border-color: var(--cyan);
+}
+
+.viewLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--cyan);
+  opacity: 0;
+  animation: fadeIn 0.2s var(--ease-out-expo) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Hide cursor on touch devices */
+@media (hover: none) {
+  .dot, .ring { display: none; }
+}

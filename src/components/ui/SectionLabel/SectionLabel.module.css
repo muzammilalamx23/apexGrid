@@ -1,0 +1,25 @@
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.number {
+  color: var(--cyan);
+}
+
+.text {
+  position: relative;
+}
+
+.text::before {
+  content: '—';
+  margin-right: var(--space-2);
+  color: var(--text-disabled);
+}

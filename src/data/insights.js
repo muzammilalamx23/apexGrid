@@ -1,0 +1,38 @@
+export const insights = [
+  {
+    id: 1,
+    slug: 'future-of-digital-brand-systems',
+    category: 'Brand',
+    title: 'The Future of Digital Brand Systems',
+    excerpt: "Static brand guidelines are becoming obsolete. The most effective brand systems today are built to move — adapting across surfaces, interactions and contexts without losing coherence.",
+    date: '2024-11-12',
+    readingTime: '6 min',
+  },
+  {
+    id: 2,
+    slug: 'why-beautiful-websites-dont-convert',
+    category: 'Strategy',
+    title: "Why Beautiful Websites Don't Always Convert",
+    excerpt: "Aesthetics earn attention, but they don't close deals. The gap between a website that looks premium and one that actually performs is almost always strategic, not visual.",
+    date: '2024-10-28',
+    readingTime: '5 min',
+  },
+  {
+    id: 3,
+    slug: 'designing-for-ai-native-products',
+    category: 'Product',
+    title: 'Designing for AI-Native Products',
+    excerpt: "Designing interfaces for AI products requires a different mental model. When the output is dynamic and probabilistic, conventional UX patterns break down. Here's how we think about it.",
+    date: '2024-10-09',
+    readingTime: '8 min',
+  },
+  {
+    id: 4,
+    slug: 'anatomy-of-high-performance-website',
+    category: 'Development',
+    title: 'The Anatomy of a High-Performance Website',
+    excerpt: "Performance is a design decision, not a technical afterthought. The fastest websites in the world share a set of principles that apply long before any code is written.",
+    date: '2024-09-22',
+    readingTime: '7 min',
+  },
+];
