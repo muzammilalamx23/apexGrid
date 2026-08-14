@@ -133,7 +133,22 @@
   transform: scale(1.4);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Responsive */
+@media (max-width: 767px) {
+  .card {
+    padding: var(--space-8) var(--space-5);
+  }
+  .quoteIcon {
+    font-size: 4rem;
+    margin-bottom: var(--space-4);
+  }
+  .quote {
+    font-size: clamp(1.15rem, 4.5vw, 1.8rem);
+    margin-bottom: var(--space-6);
+  }
+  .nav {
+    justify-content: space-between;
+    width: 100%;
+    margin-top: var(--space-6);
+  }
 }

@@ -153,3 +153,12 @@
   .hamburger { display: flex; }
   .ctaBtn { display: none; }
 }
+
+@media (max-width: 767px) {
+  .logoImg {
+    height: 38px;
+  }
+  .scrolled .logoImg {
+    height: 32px;
+  }
+}
