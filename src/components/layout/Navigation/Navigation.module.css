@@ -38,14 +38,15 @@
 }
 
 .logoImg {
-  height: 50px;
+  height: 46px;
   width: auto;
   object-fit: contain;
-  transition: height var(--duration-slow) var(--ease-out-expo);
+  transition: height var(--duration-slow) var(--ease-out-expo), filter 0.3s;
+  filter: drop-shadow(0 0 12px rgba(0, 212, 232, 0.2));
 }
 
 .scrolled .logoImg {
-  height: 42px;
+  height: 38px;
 }
 
 .links {
