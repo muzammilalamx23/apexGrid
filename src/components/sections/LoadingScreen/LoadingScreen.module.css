@@ -47,25 +47,26 @@
 }
 
 .logo {
-  height: 60px;
+  height: 105px;
   width: auto;
   opacity: 0;
-  transform: translateY(12px);
-  animation: logoReveal 0.8s var(--ease-out-expo) 0.4s forwards;
+  transform: translateY(16px) scale(0.92);
+  animation: logoReveal 1s var(--ease-out-expo) 0.3s forwards;
+  filter: drop-shadow(0 0 30px rgba(0, 212, 232, 0.2));
 }
 
 @keyframes logoReveal {
-  to { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .bar {
-  width: 48px;
-  height: 1px;
+  width: 90px;
+  height: 2px;
   background: var(--cyan);
   transform: scaleX(0);
-  transform-origin: left;
+  transform-origin: center;
   animation: barExpand 0.8s var(--ease-out-expo) 1s forwards;
-  box-shadow: 0 0 20px var(--cyan-glow-strong);
+  box-shadow: 0 0 30px var(--cyan-glow-strong);
 }
 
 @keyframes barExpand {
