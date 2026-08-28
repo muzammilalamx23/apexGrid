@@ -70,6 +70,7 @@ export const projects = [
     liveUrl: 'https://app.ryft.linkpc.net/',
     githubUrl: 'https://github.com/skrohinahmed',
     type: 'tool',
+    image: '/ryft.png',
   },
   {
     id: '05',

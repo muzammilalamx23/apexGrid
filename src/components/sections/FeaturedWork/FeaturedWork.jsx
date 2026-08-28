@@ -80,22 +80,32 @@ function ProjectPanel({ project, index, gradient }) {
       >
         {/* Visual */}
         <div className={styles.visual} style={{ background: gradient }}>
+          {project.image ? (
+            /* Screenshot image */
+            <img
+              src={project.image}
+              alt={`${project.title} screenshot`}
+              className={styles.projectImg}
+            />
+          ) : (
+            /* Fallback: abstract geometric accent */
+            <div className={styles.visualInner}>
+              <div className={styles.geometricAccent} aria-hidden="true">
+                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="100" cy="100" r="80" stroke={project.accentColor} strokeWidth="0.5" opacity="0.3" />
+                  <circle cx="100" cy="100" r="50" stroke={project.accentColor} strokeWidth="0.5" opacity="0.5" />
+                  <line x1="20" y1="100" x2="180" y2="100" stroke={project.accentColor} strokeWidth="0.5" opacity="0.4" />
+                  <line x1="100" y1="20" x2="100" y2="180" stroke={project.accentColor} strokeWidth="0.5" opacity="0.4" />
+                  <circle cx="100" cy="100" r="8" fill={project.accentColor} opacity="0.6" />
+                </svg>
+              </div>
+            </div>
+          )}
+          {/* Type badge + project number always on top */}
           <div className={styles.visualInner}>
-            {/* Type badge */}
             <span className={`${styles.typeBadge} ${styles[`typeBadge__${project.type}`]}`}>
               {typeLabels[project.type] || project.type}
             </span>
-            {/* Abstract geometric accent */}
-            <div className={styles.geometricAccent} aria-hidden="true">
-              <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="100" cy="100" r="80" stroke={project.accentColor} strokeWidth="0.5" opacity="0.3" />
-                <circle cx="100" cy="100" r="50" stroke={project.accentColor} strokeWidth="0.5" opacity="0.5" />
-                <line x1="20" y1="100" x2="180" y2="100" stroke={project.accentColor} strokeWidth="0.5" opacity="0.4" />
-                <line x1="100" y1="20" x2="100" y2="180" stroke={project.accentColor} strokeWidth="0.5" opacity="0.4" />
-                <circle cx="100" cy="100" r="8" fill={project.accentColor} opacity="0.6" />
-              </svg>
-            </div>
-            {/* Project number */}
             <span className={styles.projectNum}>{project.id}</span>
           </div>
           <div className={styles.overlay} />
