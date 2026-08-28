@@ -79,14 +79,26 @@ function ProjectPanel({ project, index, gradient }) {
         aria-label={`View ${project.title} project`}
       >
         {/* Visual */}
-        <div className={`${styles.visual} ${project.image ? styles.hasImage : ''}`} style={{ background: gradient }}>
+        <div className={styles.visual} style={{ background: gradient }}>
           {project.image ? (
-            /* Screenshot image */
-            <img
-              src={project.image}
-              alt={`${project.title} screenshot`}
-              className={styles.projectImg}
-            />
+            /* Browser-window mockup */
+            <div className={styles.browserMock}>
+              <div className={styles.browserFrame}>
+                {/* Chrome bar */}
+                <div className={styles.browserChrome}>
+                  <span className={styles.chromeDot} />
+                  <span className={styles.chromeDot} />
+                  <span className={styles.chromeDot} />
+                  <span className={styles.chromeUrl}>{project.liveUrl || project.githubUrl}</span>
+                </div>
+                {/* Screenshot */}
+                <img
+                  src={project.image}
+                  alt={`${project.title} screenshot`}
+                  className={styles.projectImg}
+                />
+              </div>
+            </div>
           ) : (
             /* Fallback: abstract geometric accent */
             <div className={styles.visualInner}>
