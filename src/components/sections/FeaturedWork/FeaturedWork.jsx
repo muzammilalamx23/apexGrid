@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { useScrollReveal } from '@hooks/useScrollReveal';
 import { projects } from '@data/projects';
 import SectionLabel from '@ui/SectionLabel';
@@ -10,7 +9,16 @@ const projectGradients = [
   'linear-gradient(135deg, #0a1220 0%, #0d2236 100%)',
   'linear-gradient(135deg, #1a1209 0%, #2a1e0d 100%)',
   'linear-gradient(135deg, #0f0a1e 0%, #180f2e 100%)',
+  'linear-gradient(135deg, #0a1310 0%, #0d2118 100%)',
 ];
+
+// Tag label map
+const typeLabels = {
+  research: 'Research',
+  web: 'Web',
+  mobile: 'Mobile',
+  tool: 'Tool',
+};
 
 export default function FeaturedWork() {
   const [headerRef, headerVisible] = useScrollReveal();
@@ -27,15 +35,21 @@ export default function FeaturedWork() {
         {/* Projects */}
         <div className={styles.projects}>
           {projects.map((project, i) => (
-            <ProjectPanel key={project.id} project={project} index={i} gradient={projectGradients[i]} />
+            <ProjectPanel key={project.id} project={project} index={i} gradient={projectGradients[i % projectGradients.length]} />
           ))}
         </div>
 
         {/* CTA */}
         <div className={styles.cta}>
-          <Link to="/work" className={styles.ctaLink} data-cursor="link">
-            View All Work →
-          </Link>
+          <a
+            href="https://github.com/skrohinahmed"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.ctaLink}
+            data-cursor="link"
+          >
+            View All on GitHub →
+          </a>
         </div>
       </div>
     </section>
@@ -46,21 +60,31 @@ function ProjectPanel({ project, index, gradient }) {
   const [ref, visible] = useScrollReveal({ threshold: 0.1 });
   const isEven = index % 2 === 0;
 
+  // Choose live link: prefer dedicated live URL, fall back to GitHub
+  const projectUrl = project.liveUrl || project.githubUrl;
+  const isLive = project.liveUrl && project.liveUrl !== project.githubUrl;
+
   return (
     <article
       ref={ref}
       className={`${styles.panel} ${isEven ? styles.panelLeft : styles.panelRight} ${visible ? styles.panelVisible : ''}`}
       style={{ '--delay': `${index * 0.05}s` }}
     >
-      <Link
-        to={`/work/${project.slug}`}
+      <a
+        href={projectUrl}
+        target="_blank"
+        rel="noopener noreferrer"
         className={styles.panelLink}
         data-cursor="view"
-        aria-label={`View ${project.title} case study`}
+        aria-label={`View ${project.title} project`}
       >
         {/* Visual */}
         <div className={styles.visual} style={{ background: gradient }}>
           <div className={styles.visualInner}>
+            {/* Type badge */}
+            <span className={`${styles.typeBadge} ${styles[`typeBadge__${project.type}`]}`}>
+              {typeLabels[project.type] || project.type}
+            </span>
             {/* Abstract geometric accent */}
             <div className={styles.geometricAccent} aria-hidden="true">
               <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,9 +114,11 @@ function ProjectPanel({ project, index, gradient }) {
               <span key={s} className={styles.serviceTag}>{s}</span>
             ))}
           </div>
-          <span className={styles.viewCta}>View Case Study →</span>
+          <span className={styles.viewCta}>
+            {isLive ? 'View Live Project →' : 'View on GitHub →'}
+          </span>
         </div>
-      </Link>
+      </a>
     </article>
   );
 }
