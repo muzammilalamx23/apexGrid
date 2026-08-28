@@ -1,42 +1,105 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import emailjs from '@emailjs/browser';
 import styles from './Contact.module.css';
 
+// ─── EmailJS Config ──────────────────────────────────────────────
+// 1. Go to https://www.emailjs.com/ → sign up free
+// 2. Add an Email Service (Gmail recommended) → copy Service ID below
+// 3. Create an Email Template using the variables listed in the template
+//    body (name, company, building, help, budget, launch, challenge, email)
+//    → copy Template ID below
+// 4. Go to Account → API Keys → copy your Public Key below
+// 5. In the template set "To Email" to: muzmmilalamx23@gmail.com
+//    Then create a second template (or duplicate) for skrohinahmed@gmail.com
+//    OR simply add both as CC/BCC inside one template.
+const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // e.g. 'service_abc123'
+const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // e.g. 'template_xyz789'
+const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // e.g. 'user_XXXXXXXXXX'
+
+// Both recipients — the template should CC or the service should BCC the second
+const RECIPIENT_1 = 'muzmmilalamx23@gmail.com';
+const RECIPIENT_2 = 'skrohinahmed@gmail.com';
+// ─────────────────────────────────────────────────────────────────
+
 const STEPS = [
-  { id: 1, field: 'name', label: "What's your name?", type: 'text', placeholder: 'Your full name' },
-  { id: 2, field: 'company', label: "What's your company?", type: 'text', placeholder: 'Company or project name' },
+  { id: 1, field: 'name',      label: "What's your name?",                type: 'text',        placeholder: 'Your full name' },
+  { id: 2, field: 'company',   label: "What's your company?",             type: 'text',        placeholder: 'Company or project name' },
   {
-    id: 3, field: 'building', label: "What are you building?", type: 'select',
+    id: 3, field: 'building',  label: "What are you building?",           type: 'select',
     options: ['Brand', 'Website', 'Digital Product', 'E-commerce', 'AI Product', 'Other'],
   },
   {
-    id: 4, field: 'help', label: "What do you need help with?", type: 'multiselect',
+    id: 4, field: 'help',      label: "What do you need help with?",      type: 'multiselect',
     options: ['Strategy', 'Design', 'Development', 'Full Digital Experience'],
   },
   {
-    id: 5, field: 'budget', label: "What's your approximate budget?", type: 'select',
+    id: 5, field: 'budget',    label: "What's your approximate budget?",  type: 'select',
     options: ['Under $5,000', '$5,000 – $15,000', '$15,000 – $50,000', '$50,000+', 'Not sure yet'],
   },
-  { id: 6, field: 'launch', label: "When are you looking to launch?", type: 'text', placeholder: 'e.g. Q1 2025, 3 months, ASAP' },
-  { id: 7, field: 'challenge', label: "Tell us about your challenge.", type: 'textarea', placeholder: 'Describe your project, goals and any key requirements...' },
-  { id: 8, field: 'email', label: "And your email address?", type: 'email', placeholder: 'hello@yourcompany.com' },
+  { id: 6, field: 'launch',    label: "When are you looking to launch?",  type: 'text',        placeholder: 'e.g. Q1 2025, 3 months, ASAP' },
+  { id: 7, field: 'challenge', label: "Tell us about your challenge.",     type: 'textarea',    placeholder: 'Describe your project, goals and any key requirements...' },
+  { id: 8, field: 'email',     label: "And your email address?",          type: 'email',       placeholder: 'hello@yourcompany.com' },
 ];
 
 export default function Contact() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted]     = useState(false);
+  const [sending, setSending]         = useState(false);
+  const [sendError, setSendError]     = useState('');
   const [multiSelections, setMultiSelections] = useState([]);
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm();
 
-  const step = STEPS[currentStep];
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm();
+
+  const step       = STEPS[currentStep];
   const totalSteps = STEPS.length;
-  const progress = ((currentStep) / totalSteps) * 100;
+  const progress   = (currentStep / totalSteps) * 100;
 
-  const handleNext = handleSubmit(() => {
+  /* ── advance / submit ── */
+  const handleNext = handleSubmit(async () => {
     if (currentStep < totalSteps - 1) {
       setCurrentStep(s => s + 1);
-    } else {
+      return;
+    }
+
+    // Last step → send email
+    setSending(true);
+    setSendError('');
+    const data = getValues();
+
+    const templateParams = {
+      from_name:    data.name,
+      company:      data.company,
+      building:     data.building,
+      help:         data.help,
+      budget:       data.budget,
+      launch:       data.launch,
+      challenge:    data.challenge,
+      reply_to:     data.email,
+      to_email_1:   RECIPIENT_1,
+      to_email_2:   RECIPIENT_2,
+    };
+
+    try {
+      // Send to both recipients (EmailJS sends to whatever "to" the template specifies)
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
       setSubmitted(true);
+    } catch (err) {
+      console.error('EmailJS error:', err);
+      setSendError('Something went wrong sending your brief. Please try emailing us directly at muzmmilalamx23@gmail.com');
+    } finally {
+      setSending(false);
     }
   });
 
@@ -55,6 +118,7 @@ export default function Contact() {
     setValue('help', updated.join(', '));
   };
 
+  /* ── Success screen ── */
   if (submitted) {
     return (
       <main className={styles.page}>
@@ -168,6 +232,10 @@ export default function Contact() {
             {errors[step.field] && (
               <p className={styles.error} role="alert">{errors[step.field].message}</p>
             )}
+
+            {sendError && (
+              <p className={styles.error} role="alert">{sendError}</p>
+            )}
           </div>
 
           {/* Actions */}
@@ -178,12 +246,18 @@ export default function Contact() {
                 className={styles.backBtn}
                 onClick={() => setCurrentStep(s => s - 1)}
                 data-cursor="link"
+                disabled={sending}
               >
                 ← Back
               </button>
             )}
-            <button type="submit" className={styles.nextBtn} data-cursor="cta">
-              {currentStep === totalSteps - 1 ? 'Submit Brief →' : 'Continue →'}
+            <button type="submit" className={styles.nextBtn} data-cursor="cta" disabled={sending}>
+              {sending
+                ? 'Sending…'
+                : currentStep === totalSteps - 1
+                  ? 'Submit Brief →'
+                  : 'Continue →'
+              }
             </button>
           </div>
         </form>

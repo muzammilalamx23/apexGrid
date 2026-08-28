@@ -79,7 +79,7 @@ function ProjectPanel({ project, index, gradient }) {
         aria-label={`View ${project.title} project`}
       >
         {/* Visual */}
-        <div className={styles.visual} style={{ background: gradient }}>
+        <div className={`${styles.visual} ${project.image ? styles.hasImage : ''}`} style={{ background: gradient }}>
           {project.image ? (
             /* Screenshot image */
             <img

@@ -104,11 +104,19 @@
   height: 100%;
   object-fit: cover;
   object-position: top center;
-  transition: transform 0.6s var(--ease-out-expo);
+  display: block;
+  transition: transform 0.7s var(--ease-out-expo);
+  filter: brightness(0.92);
 }
 
 .panelLink:hover .projectImg {
-  transform: scale(1.04);
+  transform: scale(1.05);
+  filter: brightness(1);
+}
+
+/* Stronger overlay when image is present */
+.hasImage .overlay {
+  background: linear-gradient(135deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.45) 100%);
 }
 
 .visualInner {
@@ -290,6 +298,11 @@
   .panelRight .info { border-right: none; border-left: none; }
   .info { border-left: none; }
   .visual { min-height: 300px; }
+
+  /* Image panel on tablet/mobile — taller so screenshot is readable */
+  .projectImg {
+    object-position: top center;
+  }
 }
 
 @media (max-width: 767px) {
@@ -298,4 +311,10 @@
     align-items: flex-start;
   }
   .title { text-align: left; }
+
+  /* Bigger image area on phones */
+  .visual { min-height: 260px; }
+  .projectImg {
+    object-position: top left;
+  }
 }
